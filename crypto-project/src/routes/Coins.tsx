@@ -23,9 +23,10 @@ const Coin = styled.li`
    margin-bottom: 10px;
    width: 100%;
    a {
+    display: flex;
+    align-items: center;
      padding: 20px;
      transition: color 0.2s ease-in;
-     display: block;
      width: 100%;
    }
    &:hover {
@@ -47,6 +48,12 @@ const Loader = styled.div`
   justify-content: center;
   font-size: 24px;
 `;
+
+const Icon = styled.img`
+  width: 30px;  
+  height: 30px;
+  margin-right: 10px;
+  `;
 
 interface CoinInterface{
   id: string;
@@ -80,7 +87,10 @@ function Coins() {
         <CoinsList>
           {coins.map((coin) => (
             <Coin key={coin.id}>
-              <Link to={`${coin.id}`}>{coin.name} &rarr;</Link>
+              <Link to={`${coin.id}`}>
+              <Icon src={`https://cryptoicon-api.pages.dev/api/icon/${coin.symbol.toLowerCase()}`} alt={coin.name}></Icon>
+              {coin.name} &rarr;
+              </Link>
           </Coin>) )}
         </CoinsList>
         }
