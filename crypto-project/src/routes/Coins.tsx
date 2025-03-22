@@ -7,7 +7,8 @@ padding: 0px 20px;
 
 const Header = styled.header`
    height: 15vh;
-   display: flex;
+   width: 100%;
+   display: flex; 
    justify-content: center;
    align-items: center;
  `;
@@ -19,10 +20,12 @@ const Coin = styled.li`
    color: ${(props) => props.theme.bgColor};
    border-radius: 15px;
    margin-bottom: 10px;
+   width: 100%;
    a {
      padding: 20px;
      transition: color 0.2s ease-in;
      display: block;
+     width: 100%;
    }
    &:hover {
      a {
@@ -57,13 +60,14 @@ function Coins() {
     <Contianer>
       <Header>
         <Title>Coins</Title>
+        </Header>
         <CoinsList>
           {coins.map((coin) => (
             <Coin key={coin.id}>
               <Link to={`${coin.id}`}>{coin.name} &rarr;</Link>
           </Coin>) )}
         </CoinsList>
-      </Header>
+      
     </Contianer>
   );
 }
