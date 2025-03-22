@@ -87,7 +87,7 @@ function Coins() {
         <CoinsList>
           {coins.map((coin) => (
             <Coin key={coin.id}>
-              <Link to={`${coin.id}`}>
+              <Link to={`/${coin.id}`} state = {{name: coin.name}} >
               <Icon src={`https://cryptoicon-api.pages.dev/api/icon/${coin.symbol.toLowerCase()}`} alt={coin.name}></Icon>
               {coin.name} &rarr;
               </Link>
