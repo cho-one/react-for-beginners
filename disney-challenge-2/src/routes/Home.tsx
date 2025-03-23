@@ -4,6 +4,15 @@ import { styled } from "styled-components";
 
 const Contianer = styled.div`
   background-color: ${(props) => props.theme.bgColor};
+  padding: 0px 20px;
+`;
+
+const Header = styled.header`
+  height: 15vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Title = styled.h1`
@@ -31,7 +40,7 @@ const Card = styled.div`
 
   &:hover {
     transform: scale(1.05);
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: white;
   }
 `;
 
@@ -47,6 +56,9 @@ const Name = styled.div`
   color: white;
   font-size: 16px;
   text-align: center;
+  ${Card}:hover & {
+    color: black;
+  }
 `;
 
 interface Character {
@@ -62,23 +74,23 @@ function Home() {
   });
 
   return (
-    <div>
+    <Contianer>
+      <Header>
+        <Title>Disney Characters</Title>
+      </Header>
       {isLoading ? (
         <div>loading...</div>
       ) : (
-        <Contianer>
-          <Title>Disney Characters</Title>
-          <Grid>
-            {characters?.map((character) => (
-              <Card key={character.id}>
-                <Avatar src={character.imageUrl} />
-                <Name>{character.name}</Name>
-              </Card>
-            ))}
-          </Grid>
-        </Contianer>
+        <Grid>
+          {characters?.map((character) => (
+            <Card key={character.id}>
+              <Avatar src={character.imageUrl} />
+              <Name>{character.name}</Name>
+            </Card>
+          ))}
+        </Grid>
       )}
-    </div>
+    </Contianer>
   );
 }
 
