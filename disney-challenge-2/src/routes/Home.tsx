@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchDisneyCharacters } from "../api";
 import { styled } from "styled-components";
+import { Link } from "react-router-dom";
 
 const Contianer = styled.div`
   background-color: ${(props) => props.theme.bgColor};
@@ -83,10 +84,15 @@ function Home() {
       ) : (
         <Grid>
           {characters?.map((character) => (
-            <Card key={character.id}>
-              <Avatar src={character.imageUrl} />
-              <Name>{character.name}</Name>
-            </Card>
+            <Link
+              to={`/character/${character.id}`}
+              state={{ id: character.id, imageUrl: character.imageUrl }}
+            >
+              <Card key={character.id}>
+                <Avatar src={character.imageUrl} />
+                <Name>{character.name}</Name>
+              </Card>
+            </Link>
           ))}
         </Grid>
       )}

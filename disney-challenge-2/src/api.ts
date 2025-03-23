@@ -5,7 +5,7 @@ export async function fetchDisneyCharacters() {
   return fetch(`${BASE_URL}/characters`).then((response) => response.json());
 }
 
-export async function fetchDisneyCharacter(id: string) {
+export async function fetchDisneyCharacter(id: number) {
   return fetch(`${BASE_URL}/characters/${id}`).then((response) =>
     response.json()
   );
