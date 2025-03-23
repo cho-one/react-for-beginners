@@ -9,6 +9,8 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import Chart from "./Chart";
 import Price from "./Price";
+import { fetchCoinInfo, fetchTickers } from "../api";
+import { useQuery } from "@tanstack/react-query";
 
 const Contianer = styled.div`
   padding: 0px 20px;
@@ -140,36 +142,30 @@ interface CoinPrice {
 }
 
 function Coin() {
-  const [loading, setLoading] = useState(true);
   const { coinId } = useParams();
   const location = useLocation();
   const state = location.state as CoinParams;
-  const [info, setInfo] = useState<CoinInfo | undefined>();
-  const [price, setPrice] = useState<CoinPrice | undefined>();
   const priceMatch = useMatch("/:coinId/price"); // 지정한 path에 대한 매치 여부를 반환. object 형태로 데이터를 알 수 있음.
   const chartMatch = useMatch("/:coinId/chart");
 
-  useEffect(() => {
-    (async () => {
-      const coinInfo = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      ).json();
-      const priceData = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-      ).json();
-      console.log(coinInfo);
-      console.log(priceData);
-      setLoading(false);
-      setInfo(coinInfo as CoinInfo);
-      setPrice(priceData as CoinPrice);
-    })();
-  }, [coinId]);
+  const { isLoading: infoLoading, data: infoData } = useQuery<CoinInfo>({
+    queryKey: ["Info", coinId],
+    queryFn: () => fetchCoinInfo(coinId!),
+    enabled: !!coinId,
+  });
 
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<CoinPrice>({
+    queryKey: ["Tickers", coinId],
+    queryFn: () => fetchTickers(coinId!),
+    enabled: !!coinId,
+  });
+
+  const loading = infoLoading || tickersLoading;
   return (
     <Contianer>
       <Header>
         <Title>
-          {state?.name ? state.name : loading ? "Loding.." : info?.name}
+          {state?.name ? state.name : loading ? "Loding.." : infoData?.name}
         </Title>
       </Header>
       {loading ? (
@@ -179,26 +175,26 @@ function Coin() {
           <Overview>
             <OverviewItem>
               <span>Rank:</span>
-              <span>{info?.rank}</span>
+              <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Symbol:</span>
-              <span>${info?.symbol}</span>
+              <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Open Source:</span>
-              <span>{info?.open_source ? "Yes" : "No"}</span>
+              <span>{infoData?.open_source ? "Yes" : "No"}</span>
             </OverviewItem>
           </Overview>
-          <Description>{info?.description}</Description>
+          <Description>{infoData?.description}</Description>
           <Overview>
             <OverviewItem>
               <span>Total Suply:</span>
-              <span>{price?.total_supply}</span>
+              <span>{tickersData?.total_supply}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Max Supply:</span>
-              <span>{price?.max_supply}</span>
+              <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
 
