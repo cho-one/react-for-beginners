@@ -4,11 +4,9 @@ import Coin from "./routes/Coin";
 import Chart from "./routes/Chart";
 import Price from "./routes/Price";
 
-interface RouterProps {
-  toggleDark: () => void;
-}
+interface RouterProps {}
 
-function Router({ toggleDark }: RouterProps) {
+function Router() {
   return (
     <BrowserRouter>
       <Routes>
@@ -16,7 +14,7 @@ function Router({ toggleDark }: RouterProps) {
           <Route path="price" element={<Price />} />
           <Route path="chart" element={<Chart />} />
         </Route>
-        <Route path="/" element={<Coins toggleDark={toggleDark} />} />
+        <Route path="/" element={<Coins />} />
       </Routes>
     </BrowserRouter>
   );

@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoins } from "../api";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atom";
 
 const Contianer = styled.div`
   padding: 0px 20px;
@@ -68,11 +70,11 @@ interface CoinInterface {
   type: string;
 }
 
-interface CoinProps {
-  toggleDark: () => void;
-}
+interface CoinProps {}
 
-function Coins({ toggleDark }: CoinProps) {
+function Coins() {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { isLoading, data } = useQuery<CoinInterface[]>({
     queryKey: ["allCoins"],
     queryFn: fetchCoins,
@@ -81,7 +83,7 @@ function Coins({ toggleDark }: CoinProps) {
     <Contianer>
       <Header>
         <Title>Coins</Title>
-        <button onClick={toggleDark}>Toggle Mode</button>
+        <button onClick={toggleDarkAtom}>Toggle Button</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
