@@ -66,10 +66,10 @@ function App() {
   return (
     <Wrapper>
       <Box variants={boxVariants} initial="start" animate="end">
-        <Circle variants={circleVariants} initial="start" animate="end" />
-        <Circle variants={circleVariants} initial="start" animate="end" />
-        <Circle variants={circleVariants} initial="start" animate="end" />
-        <Circle variants={circleVariants} initial="start" animate="end" />
+        <Circle variants={circleVariants} />
+        <Circle variants={circleVariants} />
+        <Circle variants={circleVariants} />
+        <Circle variants={circleVariants} />
       </Box>
     </Wrapper>
   );
