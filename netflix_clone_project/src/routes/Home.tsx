@@ -45,11 +45,11 @@ const Slider = styled.div`
 
 const Row = styled(motion.div)`
   display: grid;
-  gap: 10px;
   gap: 5px;
   grid-template-columns: repeat(6, 1fr);
   position: absolute;
   width: 100%;
+  overflow: visible; // 이 부분 추가
 `;
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
@@ -57,14 +57,30 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   background-image: url(${(props) => props.bgPhoto});
   background-size: cover;
   background-position: center center;
+  position: relative;
+  overflow: hidden;
   height: 200px;
   color: red;
   font-size: 66px;
+
   &:first-child {
     transform-origin: center left;
   }
   &:last-child {
     transform-origin: center right;
+  }
+`;
+
+const Info = styled(motion.div)`
+  padding: 10px;
+  background-color: ${(props) => props.theme.black.lighter};
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  h4 {
+    text-align: center;
+    font-size: 18px;
   }
 `;
 
@@ -86,10 +102,22 @@ const boxVariants = {
   },
   hover: {
     scale: 1.3,
-    y: -50,
+    y: -80,
     transition: {
       delay: 0.5,
-      duaration: 0.3,
+      duaration: 0.1,
+      type: "tween",
+    },
+  },
+};
+
+const infoVariants = {
+  hover: {
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+
+      duaration: 0.1,
       type: "tween",
     },
   },
@@ -148,7 +176,11 @@ function Home() {
                       initial="normal"
                       variants={boxVariants}
                       transition={{ type: "tween" }}
-                    />
+                    >
+                      <Info variants={infoVariants}>
+                        <h4>{movie.title}</h4>
+                      </Info>
+                    </Box>
                   ))}
               </Row>
             </AnimatePresence>
